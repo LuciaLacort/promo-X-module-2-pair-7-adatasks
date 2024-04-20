@@ -25,7 +25,7 @@ const taskList = document.querySelector(".task-list");
 function renderName(arr) {
   for (const item of arr) {
     // for (const j of item.name) {
-      taskList.innerHTML += `<li class="completed"><input type="checkbox">${item.name}" </li>`;
+      taskList.innerHTML += `<li class="completed"><input type="checkbox">${item.name} </li>`;
       console.log(item.name);
   
     }
