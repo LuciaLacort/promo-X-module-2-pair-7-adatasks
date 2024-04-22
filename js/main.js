@@ -24,13 +24,14 @@ const taskList = document.querySelector(".task-list");
 
 function renderName(arr) {
   for (const item of arr) {
-    // for (const j of item.name) {
-      taskList.innerHTML += `<li class="completed"><input type="checkbox">${item.name} </li>`;
+    if (item.completed === true){
+      taskList.innerHTML += `<li class="tachado"><input type="checkbox" checked>${item.name} </li>`;
+
+        } else{ taskList.innerHTML += `<li><input type="checkbox">${item.name} </li>`;
       console.log(item.name);
-  
     }
   }
-
+}
 renderName(tasks);
 
 
@@ -38,14 +39,20 @@ renderName(tasks);
 //Esto lo he dejado comentado porque he empezado a divagar probando cosas de la últimna tarea de hoy, pero prefiero que lo veamos juntas el lunes :)
 
 // const completed = document.querySelector('.completed');
-// const checkedItem = document.querySelector('.check');
 
 
-//   for (const item of tasks){
-//   if (item.completed === true){
-//     completed.classList.add('tachado');
-//   }
-// }
+
+function handleClick(event){
+  event.target;
+  const eventValue = event.target;
+  const indexTask = tasks.findIndex((task) => {
+    task === eventValue
+  });
+
+}
+
+taskList.addEventListener('click', handleClick);
+
 
 
 
