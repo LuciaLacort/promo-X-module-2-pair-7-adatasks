@@ -58,26 +58,7 @@ function toTheObject(arr, value) {
   //sin llaves haría falta return
   console.log(indexTask);
   arr[indexTask].completed = !arr[indexTask].completed;
-  //   for (let i = 0; i < arr.length; i++) {
-  //     console.log("en el for");
-
-  //     if (value == arr[i].id) {
-  //       console.log("en el if");
-  //       arr[i].completed = !arr[i].completed;
-  //       console.log(arr[i].completed);
-  //       //renderName(tasks);
-  //     }
-  //   }
-  //   for (const cosa of arr) {
-  //     console.log(cosa.id);
-  //     console.log(value);
-  //     if (value === cosa.id) {
-  //       cosa.completed = true;
-  //     }
-  //   }
 }
-
-// const completed = document.querySelector('.completed');
 
 function handleClick(event) {
   event.target;
