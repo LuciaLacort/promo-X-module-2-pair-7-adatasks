@@ -38,9 +38,9 @@ function renderName(arr) {
   for (const item of arr) {
     if (item.completed === true) {
       //he puesto el id= en el li pero a lo mejor va en el input
-      taskList.innerHTML += `<li class="tachado" id="${item.id}"><input type="checkbox" checked>${item.name} </li>`;
+      taskList.innerHTML += `<li class="tachado" id="${item.id}"><input  type="checkbox" checked>${item.name} </li>`;
     } else {
-      taskList.innerHTML += `<li id="${item.id}"><input type="checkbox">${item.name} </li>`;
+      taskList.innerHTML += `<li id="${item.id}"><input  type="checkbox">${item.name} </li>`;
       //console.log(item.name);
     }
   }
@@ -48,41 +48,44 @@ function renderName(arr) {
 renderName(tasks);
 
 const paraElConsole = "Dentro de toTheObject: ";
-//function para acceder a un objeto teniendo su id
-function toTheObject(arr, value) {
-  //console.log(paraElConsole + arr[0].id);
-  //console.log(paraElConsole + value);
-  for (let i = 0; i < arr.length; i++){
-    if(value === arr[i].id){
-        console.log('en el if');
-        arr[i].completed = true;
-        console.log(arr[i].completed);
-        //renderName(tasks);
-    }
-  }
-//   for (const cosa of arr) {
-//     console.log(cosa.id);
-//     console.log(value);
-//     if (value === cosa.id) {
-//       cosa.completed = true;
-//     }
-//   }
-}
 
-//Esto lo he dejado comentado porque he empezado a divagar probando cosas de la últimna tarea de hoy, pero prefiero que lo veamos juntas el lunes :)
+//function para acceder a un objeto teniendo su id + cambiar la propiedad completed
+function toTheObject(arr, value) {
+  console.log(paraElConsole + arr[3].id);
+  console.log(paraElConsole + value);
+  console.log(arr);
+  const indexTask = arr.findIndex((task) => task.id === parseInt(value)); //faltaba el parseInt, porque el value viene del html
+  //sin llaves haría falta return
+  console.log(indexTask);
+  arr[indexTask].completed = !arr[indexTask].completed;
+  //   for (let i = 0; i < arr.length; i++) {
+  //     console.log("en el for");
+
+  //     if (value == arr[i].id) {
+  //       console.log("en el if");
+  //       arr[i].completed = !arr[i].completed;
+  //       console.log(arr[i].completed);
+  //       //renderName(tasks);
+  //     }
+  //   }
+  //   for (const cosa of arr) {
+  //     console.log(cosa.id);
+  //     console.log(value);
+  //     if (value === cosa.id) {
+  //       cosa.completed = true;
+  //     }
+  //   }
+}
 
 // const completed = document.querySelector('.completed');
 
 function handleClick(event) {
   event.target;
-  const eventValue = event.target;
-  const valueId = eventValue.id;
-  console.log(eventValue.id);
-  toTheObject(tasks, valueId);
+  const eventValue = event.target.id; //OJO! El tipo de dato es string y no numérico
+
+  console.log(eventValue);
+  toTheObject(tasks, eventValue);
   renderName(tasks);
-  //   const indexTask = tasks.findIndex((task) => {
-  //     task === eventValue;
-  // });
 }
 
 taskList.addEventListener("click", handleClick);
