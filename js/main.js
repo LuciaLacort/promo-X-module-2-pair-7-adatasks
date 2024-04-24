@@ -1,35 +1,46 @@
 "use strict";
-const tasks = [
-  {
-    name: "Recoger setas en el campo",
-    completed: true,
-  },
-  {
-    name: "Comprar pilas",
-    completed: true,
-  },
-  {
-    name: "Poner una lavadora de blancos",
-    completed: true,
-  },
-  {
-    name: "Aprender cómo se realizan las peticiones al servidor en JavaScript",
-    completed: false,
-  },
-];
+let tasks = [];
+
+const GITHUB_USER = 'LuciaLacort';
+const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
+
 
 const taskList = document.querySelector(".task-list");
+const counter = document.querySelector(".js-counter");
+
+const getDataApi = () =>{
+fetch(SERVER_URL)
+ .then((response) => response.json())
+ .then ((info) => {
+  console.log(info);
+  tasks = info.results;
+  renderName(tasks);
+  taskCounter(tasks);
+ });
+}
+getDataApi();
+
+
+function taskCounter(arr){
+  const completedTasks = tasks.filter(task => task.completed === true);
+  console.log(completedTasks);
+  const notCompletedTasks = tasks.filter(task => task.completed === false);
+  counter.innerHTML = `Tienes ${arr.length} tareas. ${completedTasks.length} completadas y ${notCompletedTasks.length} por realizar`;
+};
+
+
+
 
 //function que me añada un id por objeto
-function addId(arr) {
-  for (let i = 0; i < arr.length; i++) {
-    arr[i].id = i;
-  }
-  return arr;
-}
+// function addId(arr) {
+//   for (let i = 0; i < arr.length; i++) {
+//     arr[i].id = i;
+//   }
+//   return arr;
+// }
 
-addId(tasks);
-console.log(tasks);
+// addId(tasks);
+// console.log(tasks);
 
 //función que pinte el name en la pantalla
 
@@ -63,10 +74,11 @@ function toTheObject(arr, value) {
 function handleClick(event) {
   event.target;
   const eventValue = event.target.id; //OJO! El tipo de dato es string y no numérico
-
   console.log(eventValue);
   toTheObject(tasks, eventValue);
   renderName(tasks);
+  taskCounter(tasks);
+  console.log(tasks)
 }
 
 taskList.addEventListener("click", handleClick);
