@@ -7,15 +7,56 @@ const SERVER_URL = `https://dev.adalab.es/api/todo/${GITHUB_USER}`;
 const taskList = document.querySelector(".task-list");
 const counter = document.querySelector(".js-counter");
 
+// const init = () => {
+//     //Guardar lista de tareas en Local Storage
+//     const tasksLocalStorage = localStorage.getItem("tareas");
+
+//     if (tasksLocalStorage !== null) {
+//       console.log("hay datos!");
+//       const tasksLocalArray = JSON.parse(tasksLocalStorage);
+//       console.log(tasksLocalArray);
+//       const tasks = tasksLocalArray;
+
+//     } else {
+//       //sino existe el listado de tareas en el local storage
+//       // pide los datos al servidor
+//       fetch(SERVER_URL)
+//         .then((response) => response.json())
+//         .then((info) => {
+//             console.log(info);
+//             tasks = info.results;
+//             localStorage.setItem("tareas", JSON.stringify(tasks));
+
+//         })
+//         .catch((error) => {
+//           console.error(error);
+//         });
+//     }
+//   };
+
 const getDataApi = () => {
-  fetch(SERVER_URL)
-    .then((response) => response.json())
-    .then((info) => {
-      console.log(info);
-      tasks = info.results;
-      renderName(tasks);
-      taskCounter(tasks);
-    });
+  const tasksLocalStorage = localStorage.getItem("tareas");
+
+  if (tasksLocalStorage !== null) {
+    console.log("hay datos!");
+    const tasksLocalArray = JSON.parse(tasksLocalStorage);
+    console.log(tasksLocalArray);
+    tasks = tasksLocalArray;
+    renderName(tasks);
+    taskCounter(tasks);
+  } else {
+    //sino existe el listado de tareas en el local storage
+    // pide los datos al servidor
+    fetch(SERVER_URL)
+      .then((response) => response.json())
+      .then((info) => {
+        console.log(info);
+        tasks = info.results;
+        localStorage.setItem("tareas", JSON.stringify(tasks));
+        renderName(tasks);
+        taskCounter(tasks);
+      });
+  }
 };
 getDataApi();
 
@@ -98,6 +139,11 @@ const handleNewTask = (event) => {
   tasks.push(newTask);
   // 4. Vuelve a pintar las tareas
   console.log(tasks);
+  //init();
   renderName(tasks);
+
+ // localStorage.setItem("tareas", JSON.stringify(tasks)); //actualiza el localStorage con la nueva tarea
 };
 newTaskBtn.addEventListener("click", handleNewTask);
+
+//cuando carga la página
