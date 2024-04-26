@@ -85,9 +85,9 @@ function renderName(arr) {
   for (const item of arr) {
     if (item.completed === true) {
       //he puesto el id= en el li pero a lo mejor va en el input
-      taskList.innerHTML += `<li class="tachado" id="${item.id}"><input  type="checkbox" checked>${item.name} </li>`;
+      taskList.innerHTML += `<li class="tachado"><input id="${item.id}" type="checkbox" checked>${item.name} </li>`;
     } else {
-      taskList.innerHTML += `<li id="${item.id}"><input  type="checkbox">${item.name} </li>`;
+      taskList.innerHTML += `<li><input id="${item.id}" type="checkbox">${item.name} </li>`;
       //console.log(item.name);
     }
   }
@@ -127,22 +127,35 @@ const newTaskArea = document.querySelector(".js-text-task-add");
 const handleNewTask = (event) => {
   event.preventDefault();
   const inputValue = newTaskArea.value;
-
+  // const uniqueId = uuidv4(); //Esto nos sirve si la base de datos no genera el ID y queremos generarlo nosotras
   //Idea: hacer un let con la variable del objeto justo anterior del array
   const newTask = {
-    //id: Aquí coger el valor del ID del objeto anterior que hemos guardado en la variable let y sumarle 1
+    //ID
+    // id: uniqueId, //Recogemos el ID generado
     name: inputValue, // sustituye este string vacío por el nombre de la tarea nueva
     completed: false,
   };
   console.log(newTask);
   // 3. Añade la nueva tarea al array de tareas
-  tasks.push(newTask);
-  // 4. Vuelve a pintar las tareas
-  console.log(tasks);
-  //init();
-  renderName(tasks);
 
- // localStorage.setItem("tareas", JSON.stringify(tasks)); //actualiza el localStorage con la nueva tarea
+  fetch(`https://dev.adalab.es/api/todo/${GITHUB_USER}`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(newTask),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.success) {
+      tasks.push(newTask); //Añade la nueva tarea al array
+      console.log(tasks);
+      renderName(tasks);
+      localStorage.setItem("tareas", JSON.stringify(tasks)); //actualiza el 
+    } else {
+      console.log('Error: no se han enviado los datos')
+    }
+  });
+
+
 };
 newTaskBtn.addEventListener("click", handleNewTask);
 
